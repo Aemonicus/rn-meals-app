@@ -17,13 +17,13 @@ export default function App() {
     return <AppLoading
       startAsync={fetchFonts}
       onFinish={() => setFontLoaded(true)}
+      onError={(err) => console.log(err)}
     />
   }
 
   return (
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
     </View>
   );
 }
