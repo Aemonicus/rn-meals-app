@@ -25,9 +25,6 @@ export default function App() {
 
   return (
     <MealsNavigator />
-    // <View style={styles.container}>
-    //   <Text>Yo</Text>
-    // </View>
   );
 }
 
