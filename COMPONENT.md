@@ -194,6 +194,7 @@ Exemple
 ```javascript
 
 import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font'
 
 const fetchFonts = () => {
   return Font.loadAsync({
