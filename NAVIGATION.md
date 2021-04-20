@@ -91,7 +91,9 @@ Deux options :
   ```
 
 Ensuite, dans la première vue, ici `CategoriesScreen.js`, on va poser un bouton pour tester le routing. 
-On va utiliser la props spéciale qui est passée à la vue grâce à l'objet du navigator, cette props possède beaucoup de propriétés (objets et functions) dont une qui nous intéresse : la fonction `navigate`.
+On va utiliser la props `navigation` qui est passée à la vue grâce à l'objet du navigator, cette props possède beaucoup de propriétés (objets et functions).
+
+- La fonction `navigate`.
 Cette fonction `navigate` accepte en argument un objet dans lequel on indique la vue vers laquelle on veut être dirigée si on clique sur le bouton. Rien de plus, la librairie s'occupe du reste. On ne s'occupe pas du "sens" de navigation, du bouton retour etc.. c'est géré par la librairie.
 Deux syntaxe pour la fonction `navigate`, les deux fonctionnent sans différence, l'une est plus courte, c'est tout
 
@@ -108,3 +110,70 @@ const CategoriesScreen = ({ navigation }) => {
 }
 
 ```
+
+- La fonction `push`.
+Cette fonction `push` est identique à la fonction `navigate` mais permet en plus de renvoyer sur la même page, comme une sorte de refresh, ce que ne fait pas fonction `navigate`.
+
+```javascript
+
+const CategoriesScreen = ({ navigation }) => {
+  return (
+    <View style={styles.screen}>
+      <Text>The Categories Screen!</Text>
+      <Button title="Go to Meals!" onPress={() => { navigation.push("CategoryMeals") }} />
+    </View>
+  )
+}
+
+```
+
+- La fonction `goBack` et `pop`.
+  Cette fonction `goBack` est identique au bouton "retour" pris en charge par la fonction `navigate` mais permet de le mettre où on veut et donc de ne pas être limité au bouton "retour" dans la barre de navigation.
+  La fonction `pop` est identique mais ne peut être utilisé que dans un stack, contrairement à `goBack` qui peut être utilisé avec `navigation` n'importe où
+
+```javascript
+
+const CategoriesScreen = ({ navigation }) => {
+  return (
+    <View style={styles.screen}>
+      <Text>The Categories Screen!</Text>
+      <Button title="Go Back" onPress={() => { navigation.goBack() }} />
+      <Button title="Go Back" onPress={() => { navigation.pop() }} />
+    </View>
+  )
+}
+
+```
+
+- La fonction `popToTop`.
+  Cette fonction permet de revenir à la première vue du stack, pratique si on veut revenir directement à l'accueil par exemple
+
+  ```javascript
+
+  const MealDetailScreen = ({ navigation }) => {
+    return (
+      <View style={styles.screen}>
+        <Text>The Meal Detail Screen!</Text>
+        <Button title="Go Back to Categories" onPress={() => {navigation.popToTop()}} />
+      </View>
+    )
+  }
+
+  ```
+
+- La fonction `replace`.
+  Cette fonction permet de remplacer la vue dans le stack par celle choisie
+
+  ```javascript
+
+    const MealDetailScreen = ({ navigation }) => {
+      return (
+        <View style={styles.screen}>
+          <Text>The Meal Detail Screen!</Text>
+          <Button title="Go Back to Categories" onPress={() => {navigation.replace("CategoryMeals")}} />
+        </View>
+      )
+    }
+
+  ```
+
