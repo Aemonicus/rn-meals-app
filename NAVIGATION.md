@@ -52,11 +52,25 @@ Deux options :
   import MealDetailScreen from '../screens/MealDetailScreen'
 
   const MealsNavigator = createStackNavigator({
-    Categories: CategoriesScreen,
-    CategoryMeals: {
-      screen: CategoryMealsScreen
+    Categories: {
+      // Exemple de customisation d'un élément différemment des autres
+      screen: CategoriesScreen,
+      navigationOptions: {
+        headerStyle: {
+          backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+        },
+        headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
+      }
     },
+    CategoryMeals: CategoryMealsScreen,
     MealDetail: MealDetailScreen
+  }, {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+      },
+      headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
+    }
   })
 
   export default createAppContainer(MealsNavigator)
@@ -65,6 +79,7 @@ Deux options :
   - On va créer un stack, une pile des vues rentrées dans l'objet qui englobera l'application
   - L'ordre des vues dans l'objet est important et indique quelle vue est en premier, en second, etc..
   - Chaque vue entrée dans l'objet de navigation possède automatiquement une props spéciale
+  - on peut passer `defaultNavigationOptions` qui serviront à transporter des options (par exemple de style) directement aux vues concernées
   - Une fois ce dernier créé, on va le poser dans `App.js`
 
 
