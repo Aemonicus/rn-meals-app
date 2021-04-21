@@ -8,7 +8,12 @@ const CategoriesScreen = ({ navigation }) => {
 
   const renderGridItem = itemData => {
     return (
-      <TouchableOpacity style={styles.gridItem} onPress={() => { navigation.navigate({ routeName: "CategoryMeals" }) }}>
+      <TouchableOpacity
+        style={styles.gridItem}
+        // Version alternative
+        // onPress={() => { navigation.navigate({ routeName: "CategoryMeals", {categoryId: itemData.item.id} }) }}>
+        // Je passe des params dans l'objet navigation jusqu'à la vue suivante
+        onPress={() => { navigation.navigate({ routeName: "CategoryMeals", params: { categoryId: itemData.item.id } }) }}>
         <View>
           <Text>{itemData.item.title}</Text>
         </View>

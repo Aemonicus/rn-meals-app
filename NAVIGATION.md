@@ -91,7 +91,7 @@ Deux options :
   ```
 
 Ensuite, dans la première vue, ici `CategoriesScreen.js`, on va poser un bouton pour tester le routing. 
-On va utiliser la props `navigation` qui est passée à la vue grâce à l'objet du navigator, cette props possède beaucoup de propriétés (objets et functions).
+On va utiliser la props `navigation` qui est passée à la vue grâce à l'objet du navigator, cette props possède beaucoup de propriétés (objets et functions) :
 
 - La fonction `navigate`.
 Cette fonction `navigate` accepte en argument un objet dans lequel on indique la vue vers laquelle on veut être dirigée si on clique sur le bouton. Rien de plus, la librairie s'occupe du reste. On ne s'occupe pas du "sens" de navigation, du bouton retour etc.. c'est géré par la librairie.
@@ -177,3 +177,50 @@ const CategoriesScreen = ({ navigation }) => {
 
   ```
 
+
+Rappel : les fonctions sont des objets en js, après avoir créé la fonction/objet, je peux lui ajouter des propriétés. Je rajoute donc la propriété `navigationOptions` qui me permet, entre autres, d'ajouter du style au header de la barre de navigation
+
+  ```javascript
+  CategoriesScreen.navigationOptions = {
+    headerTitle: "Meal Categories",
+    headerStyle: {
+      backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+    },
+    headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
+  }
+  ```
+
+
+Je peux passer des paramètres, comme des props, d'une vue à une autre grâce à `navigation`...
+
+```javascript
+  const renderGridItem = itemData => {
+      return (
+        <TouchableOpacity
+          style={styles.gridItem}
+          // Version alternative
+          // onPress={() => { navigation.navigate({ routeName: "CategoryMeals", {categoryId: itemData.item.id} }) }}>
+          // Je passe des params/infos dans l'objet navigation jusqu'à la vue suivante
+          onPress={() => { navigation.navigate({ routeName: "CategoryMeals", params: { categoryId: itemData.item.id } }) }}>
+          <View>
+            <Text>{itemData.item.title}</Text>
+          </View>
+        </TouchableOpacity>
+      )
+    }
+```
+
+... que je récupère de la manière suivante dans la vue ciblée :
+```javascript
+  const CategoryMealsScreen = ({ navigation }) => {
+    // Je récupère les params/infos et les stocke dans carId
+    const carId = navigation.getParam("categoryId")
+    return (
+      <View style={styles.screen}>
+        <Text>The Category Meal Screen!</Text>
+        <Button title="Go to Details" onPress={() => { navigation.navigate("MealDetail") }} />
+        <Button title="Go Back" onPress={() => { navigation.goBack() }} />
+      </View>
+    )
+  }
+```
