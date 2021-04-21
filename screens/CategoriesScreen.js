@@ -12,7 +12,7 @@ const CategoriesScreen = ({ navigation }) => {
       <CategoryGridTile
         title={itemData.item.title}
         color={itemData.item.color}
-        onSelected={() => {
+        onSelect={() => {
           navigation.navigate({ routeName: "CategoryMeals", params: { categoryId: itemData.item.id } })
         }} />
     )
