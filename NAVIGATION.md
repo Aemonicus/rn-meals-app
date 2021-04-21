@@ -224,3 +224,19 @@ Je peux passer des paramètres, comme des props, d'une vue à une autre grâce �
     )
   }
 ```
+
+On va avoir un problème cependant si on veut récupérer les infos passées en paramètres EN DEHORS de la fonction principale (`CategoryMealsScreen` par exemple ci-dessus). En effet, les params/infos sont récupérées depuis l'objet `navigation` passées en paramètre de la fonction... inaccessible à l'extérieur de cette dernière et donc inaccessible avec `navigationOptions` qui se trouve à l'extérieur. Rappel, `navigationOptions` est rajouté à la function APRES sa création donc en dehors de cette dernière.
+
+La solution consiste à passer par l'objet `navigationData` qui est en fait identique (ou en tout cas suffisamment proche) à l'objet `navigation`. L'objet `navigationData` est accessible à l'extérieur de la fonction principale donc :
+
+```javascript
+  CategoryMealsScreen.navigationOptions = navigationData => {
+    const carId = navigationData.navigation.getParam("categoryId")
+
+    const selectedCategory = CATEGORIES.find(item => item.id === carId)
+
+    return {
+      headerTitle: selectedCategory.title
+    }
+  }
+```
