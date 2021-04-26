@@ -14,7 +14,8 @@ const CategoriesScreen = ({ navigation }) => {
         color={itemData.item.color}
         onSelect={() => {
           navigation.navigate({ routeName: "CategoryMeals", params: { categoryId: itemData.item.id } })
-        }} />
+        }}
+      />
     )
   }
 

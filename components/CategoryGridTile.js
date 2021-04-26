@@ -8,6 +8,7 @@ const CategoryGridTile = ({ onSelect, title, color }) => {
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableComponent = TouchableNativeFeedback
   }
+
   return (
     <View style={styles.gridItem}>
       <TouchableComponent
