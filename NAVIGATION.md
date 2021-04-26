@@ -2,6 +2,7 @@
 
 Deux options : 
 - des vues conditionnelles depuis `App.js`, 
+  
   Exemple
   ```javascript
 
@@ -47,9 +48,14 @@ Deux options :
 
   import { createStackNavigator } from 'react-navigation-stack'
   import { createAppContainer } from 'react-navigation'
+  import { createBottomTabNavigator } from 'react-navigation-tabs'
   import CategoriesScreen from '../screens/CategoriesScreen'
+  import FavoritesScreen from '../screens/FavoritesScreen'
   import CategoryMealsScreen from '../screens/CategoryMealsScreen'
   import MealDetailScreen from '../screens/MealDetailScreen'
+
+  import { Platform } from "react-native"
+  import Colors from "../constants/Colors"
 
   const MealsNavigator = createStackNavigator({
     Categories: {
@@ -73,7 +79,13 @@ Deux options :
     }
   })
 
-  export default createAppContainer(MealsNavigator)
+  // On crée un stack dans la barre de navigation du bas, on inclut le stack de MealsNavigator sur le lien de la première vue. Un stack "nested" dans un stack en somme. On a ainsi toujours accès au stack de MealsNavigator sauf que là ça nous permet de poser une barre de navigation en bas qui utilise le stack de MealsNavigator dans le stack de MealsFavTabNavigator
+  const MealsFavTabNavigator = createBottomTabNavigator({
+    Meals: MealsNavigator,
+    Favorites: FavoritesScreen
+  })
+
+  export default createAppContainer(MealsFavTabNavigator)
 
   ```
   - On va créer un stack, une pile des vues rentrées dans l'objet qui englobera l'application
