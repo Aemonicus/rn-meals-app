@@ -342,3 +342,6 @@ La solution consiste à passer par l'objet `navigationData` qui est en fait iden
         }
       }
     ```
+
+
+  Si on veut utiliser des tabs style android dans la barre de navigation du bas = `npm i --save react-navigation-material-bottom-tabs` puis `npm i --save react-native-paper`
