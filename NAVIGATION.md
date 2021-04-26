@@ -93,6 +93,7 @@ Deux options :
   - Chaque vue entrée dans l'objet de navigation possède automatiquement une props spéciale
   - on peut passer `defaultNavigationOptions` qui serviront à transporter des options (par exemple de style) directement aux vues concernées
   - Une fois ce dernier créé, on va le poser dans `App.js`
+  - ATTENTION : il est possible d'inclure un stack dans un stack, notamment pour avoir une barre de navigation supplémentaire (typiquement en bas). Dans ce cas, comme on exporte un seul stack pour englober `App.js`, on va inclure un stack dans un autre. Voire l'exemple au-dessus.
 
 
 ```javascript
