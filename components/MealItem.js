@@ -38,10 +38,14 @@ const styles = StyleSheet.create({
   },
   mealItem: {
     height: 200,
-    width: "100%",
+    width: "90%",
     backgroundColor: "#f5f5f5",
     borderRadius: 10,
-    overflow: "hidden"
+    overflow: "hidden",
+    marginRight: "5%",
+    marginLeft: "5%",
+    marginBottom: 5
+
   },
   mealRow: {
     flexDirection: "row"
