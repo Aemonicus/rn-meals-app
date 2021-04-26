@@ -255,3 +255,77 @@ La solution consiste à passer par l'objet `navigationData` qui est en fait iden
     }
   }
 ```
+
+- Pour un bouton/texte/icone en haut à droite dans la barre de navigation, après avoir installé la lib `npm i --save @expo/vector-icons` pour les icones, deux options :
+  - A la mano :
+    ```javascript
+      MealDetailScreen.navigationOptions = navigationData => {
+
+        const mealId = navigationData.navigation.getParam("mealId")
+        const selectedMeal = MEALS.find(item => item.id === mealId)
+
+        return {
+          headerTitle: selectedMeal.title,
+          headerRight: <Text>FAV!</Text>
+        }
+      }
+
+    ```
+  - A travers une librairie : `npm install --save react-navigation-header-buttons@6`
+    Le `@6` sert à identifier et fixer la version dans le tuto udemy.
+    On va préférer la lib, même si la solution manuelle est possible, pour des raisons de simplicité lors du style si on veut qu'il rende bien sur un maximum de format de téléphone.
+
+    - On va d'abord créer un composant custom `HeaderButton.js`:
+
+    Exemple : 
+
+    ```javascript
+      import React from 'react'
+      import { Platform } from "react-native"
+      import { HeaderButton } from 'react-navigation-header-buttons'
+      import { Ionicons } from '@expo/vector-icons'
+
+      import Colors from "../constants/Colors"
+
+      const CustomHeaderButton = props => {
+        return <HeaderButton
+          {...props}
+          IconComponent={Ionicons}
+          iconSize={23}
+          color={Platform.OS === "android" ? "white" : Colors.primaryColor}
+        />
+      }
+
+      export default CustomHeaderButton
+
+    ```
+
+    - Ensuite sur la page où on souhaite afficher l'icone dans la barre de navigation, `MealDetailScreen.js`, on va poser `HeaderButtons` de la lib `"react-navigation-header-buttons"` PLUS `HeaderButton` que l'on a créé dans notre composant au-dessus. On utilise `HeaderButtons` et à l'intérieur `HeaderButtonComponent={HeaderButton}` pour lui dire de prendre le style de notre composant `HeaderButton`. Au final, la partie dessous ne change pas trop en dehors du `title` (solution de secours si l'icone ne s'affiche pas) et du `iconName` qui indique quelle icone utiliser. La couleur et la taille sont gérées au-dessus dans le composant custom.
+
+    Exemple : 
+
+    ```javascript
+
+      import { HeaderButtons, Item } from "react-navigation-header-buttons"
+      import HeaderButton from "../components/HeaderButton"
+
+      ....
+
+      MealDetailScreen.navigationOptions = navigationData => {
+
+        const mealId = navigationData.navigation.getParam("mealId")
+        const selectedMeal = MEALS.find(item => item.id === mealId)
+
+        return {
+          headerTitle: selectedMeal.title,
+          headerRight:
+            <HeaderButtons HeaderButtonComponent={HeaderButton}>
+              <Item
+                title="Favorite"
+                iconName="ios-star"
+                onPress={() => { }}
+              />
+            </HeaderButtons>
+        }
+      }
+    ```
