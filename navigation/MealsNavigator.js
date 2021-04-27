@@ -2,11 +2,13 @@ import React from 'react'
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createDrawerNavigator } from 'react-navigation-drawer'
 import { Ionicons } from "@expo/vector-icons"
 import CategoriesScreen from '../screens/CategoriesScreen'
 import FavoritesScreen from '../screens/FavoritesScreen'
 import CategoryMealsScreen from '../screens/CategoryMealsScreen'
 import MealDetailScreen from '../screens/MealDetailScreen'
+import FiltersScreen from '../screens/FiltersScreen'
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs"
 
 import { Platform } from "react-native"
@@ -71,4 +73,15 @@ const MealsFavTabNavigator = Platform.OS === "android" ? createMaterialBottomTab
   }
 })
 
-export default createAppContainer(MealsFavTabNavigator)
+// Je crée ce stack uniquement pour avoir un Header sur la page filters, aucune autre raison
+const FiltersNavigator = createStackNavigator({
+  Filters: FiltersScreen
+})
+
+// Notre outil de navigation principal, le drawing navigator qui sera utilisé pour englober l'app dessous sera symbolisé dans l'app par un menu burger. Il faut penser à poser ce menu burger dans les navigationOptions des pages où on veut le voir apparaitre avec la propriété "headerLeft":
+const MainNavigator = createDrawerNavigator({
+  MealsFavs: MealsFavTabNavigator,
+  Filters: FiltersNavigator
+})
+
+export default createAppContainer(MainNavigator)
