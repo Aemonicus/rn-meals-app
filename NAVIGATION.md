@@ -416,3 +416,25 @@ La solution consiste à passer par l'objet `navigationData` qui est en fait iden
 
 
   Si on veut utiliser des tabs style android dans la barre de navigation du bas = `npm i --save react-navigation-material-bottom-tabs` puis `npm i --save react-native-paper`
+
+
+
+  Si on veut styliser les éléments de navigation
+   ```javascript
+    const defaultStackNavOptions = {
+      defaultNavigationOptions: {
+        headerStyle: {
+          backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+        },
+        // Pour styliser les éléments dans la barre de navigation du haut, on doit passer par defaultNavigationOptions et les objets suivants :
+        headerTitleStyle: {
+          fontFamily: "open-sans-bold",
+        },
+        headerBackTitleStyle: {
+          fontFamily: "open-sans"
+        },
+        headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
+      }
+    }
+    
+  ```

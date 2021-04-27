@@ -11,13 +11,20 @@ import MealDetailScreen from '../screens/MealDetailScreen'
 import FiltersScreen from '../screens/FiltersScreen'
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs"
 
-import { Platform } from "react-native"
+import { Platform, Text } from "react-native"
 import Colors from "../constants/Colors"
 
 const defaultStackNavOptions = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
+    },
+    // Pour styliser les éléments dans la barre de navigation du haut, on doit passer par defaultNavigationOptions et les objets suivants :
+    headerTitleStyle: {
+      fontFamily: "open-sans-bold",
+    },
+    headerBackTitleStyle: {
+      fontFamily: "open-sans"
     },
     headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
   }
@@ -50,7 +57,8 @@ const tabScreenConfig = {
         return <Ionicons name="ios-restaurant" size={25} color={tabInfo.tintColor} />
       }
     },
-    tabBarColor: Colors.primaryColor
+    tabBarColor: Colors.primaryColor,
+    tabBarLabel: Platform.OS === "android" ? <Text style={{ fontFamily: "open-sans-bold" }}>Meals</Text> : "Meals"
   },
   Favorites: {
     screen: FavNavigator,
@@ -58,7 +66,9 @@ const tabScreenConfig = {
       tabBarIcon: tabInfo => {
         return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />
       },
-      tabBarColor: Colors.secondaryColor
+      tabBarColor: Colors.secondaryColor,
+      tabBarLabel: Platform.OS === "android" ? <Text style={{ fontFamily: "open-sans-bold" }}>Favorites</Text> : "Favorites"
+
     }
   }
 }
@@ -69,6 +79,9 @@ const MealsFavTabNavigator = Platform.OS === "android" ? createMaterialBottomTab
   shifting: true
 }) : createBottomTabNavigator(tabScreenConfig, {
   tabBarOptions: {
+    labelStyle: {
+      fontFamily: "open-sans-bold"
+    },
     activeTintColor: Colors.secondaryColor
   }
 })
