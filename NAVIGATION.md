@@ -419,7 +419,7 @@ La solution consiste à passer par l'objet `navigationData` qui est en fait iden
 
 
 
-  Si on veut styliser les éléments de navigation
+  Si on veut styliser les éléments de navigation, dans `MealsNavigator.js`
    ```javascript
     const defaultStackNavOptions = {
       defaultNavigationOptions: {
@@ -436,5 +436,5 @@ La solution consiste à passer par l'objet `navigationData` qui est en fait iden
         headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
       }
     }
-    
+
   ```
