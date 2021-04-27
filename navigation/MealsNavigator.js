@@ -76,12 +76,30 @@ const MealsFavTabNavigator = Platform.OS === "android" ? createMaterialBottomTab
 // Je crée ce stack uniquement pour avoir un Header sur la page filters, aucune autre raison
 const FiltersNavigator = createStackNavigator({
   Filters: FiltersScreen
+}, {
+  navigationOptions: {
+    drawerLabel: "Filters"
+  },
+  defaultNavigationOptions: defaultStackNavOptions
 })
 
 // Notre outil de navigation principal, le drawing navigator qui sera utilisé pour englober l'app dessous sera symbolisé dans l'app par un menu burger. Il faut penser à poser ce menu burger dans les navigationOptions des pages où on veut le voir apparaitre avec la propriété "headerLeft":
 const MainNavigator = createDrawerNavigator({
-  MealsFavs: MealsFavTabNavigator,
+  MealsFavs: {
+    screen: MealsFavTabNavigator,
+    navigationOptions: {
+      drawerLabel: "Meals"
+    }
+  },
   Filters: FiltersNavigator
+}, {
+  contentOptions: {
+    activeTintColor: Colors.secondaryColor,
+    labelStyle: {
+      fontFamily: "open-sans-bold",
+      fontSize: 15
+    }
+  }
 })
 
 export default createAppContainer(MainNavigator)
