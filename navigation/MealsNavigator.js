@@ -12,26 +12,32 @@ import { createMaterialBottomTabNavigator } from "react-navigation-material-bott
 import { Platform } from "react-native"
 import Colors from "../constants/Colors"
 
-const MealsNavigator = createStackNavigator({
-  Categories: {
-    // Exemple de customisation d'un élément différemment des autres
-    screen: CategoriesScreen,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
-      },
-      headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
-    }
-  },
-  CategoryMeals: CategoryMealsScreen,
-  MealDetail: MealDetailScreen
-}, {
+const defaultStackNavOptions = {
   defaultNavigationOptions: {
     headerStyle: {
       backgroundColor: Platform.OS === "android" ? Colors.primaryColor : ""
     },
     headerTintColor: Platform.OS === "android" ? "white" : Colors.primaryColor
   }
+}
+
+const MealsNavigator = createStackNavigator({
+  Categories: {
+    // Exemple de customisation d'un élément différemment des autres
+    screen: CategoriesScreen,
+    defaultStackNavOptions
+  },
+  CategoryMeals: CategoryMealsScreen,
+  MealDetail: MealDetailScreen
+}, {
+  defaultNavigationOptions: defaultStackNavOptions
+})
+
+const FavNavigator = createStackNavigator({
+  Favorites: FavoritesScreen,
+  MealDetail: MealDetailScreen
+}, {
+  defaultNavigationOptions: defaultStackNavOptions
 })
 
 const tabScreenConfig = {
@@ -45,8 +51,8 @@ const tabScreenConfig = {
     tabBarColor: Colors.primaryColor
   },
   Favorites: {
-    screen: FavoritesScreen, navigationOptions: {
-      tabBarLabel: "Favorites",
+    screen: FavNavigator,
+    navigationOptions: {
       tabBarIcon: tabInfo => {
         return <Ionicons name="ios-star" size={25} color={tabInfo.tintColor} />
       },
