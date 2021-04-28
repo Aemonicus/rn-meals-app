@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, Button, ScrollView, Image } from 'react-native'
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import DefaultText from "../components/DefaultText"
 
+import { toggleFavorite } from "../store/actions/meals"
+
 
 import HeaderButton from "../components/HeaderButton"
 
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 const ListItem = ({ children }) => {
   return (
@@ -23,10 +25,22 @@ const MealDetailScreen = ({ navigation }) => {
 
   const selectedMeal = availableMeals.find(item => item.id === mealId)
 
+  // On va utiliser le hook useDispatch pour lancer l'action au reducer
+  const dispatch = useDispatch()
+
+  // On utilise le hook useCallback() pour éviter les boucles infinies
+  const toggleFavoriteHandler = useCallback(() => {
+    dispatch(toggleFavorite(mealId))
+  }, [dispatch, mealId])
+
   // Solution pas optimale car les hooks sont activés après le premier rendu du component, hors on utilise ce hook pour faire apapraitre un titre dans le header plus bas dans le code. Ca veut dire que le titre apparait quelques secondes après le rendu initial, pas top
   // useEffect(() => {
   //   navigation.setParams({ mealTitle: selectedMeal.title })
   // }, [selectedMeal])
+
+  useEffect(() => {
+    navigation.setParams({ toggleFav: toggleFavoriteHandler })
+  }, [selectedMeal])
 
 
   return (
@@ -47,9 +61,8 @@ const MealDetailScreen = ({ navigation }) => {
 
 MealDetailScreen.navigationOptions = navigationData => {
 
-  const mealId = navigationData.navigation.getParam("mealId")
   const mealTitle = navigationData.navigation.getParam("mealTitle")
-  // const selectedMeal = MEALS.find(item => item.id === mealId)
+  const toggleFavorite = navigationData.navigation.getParam("toggleFav")
 
   return {
     headerTitle: mealTitle,
@@ -58,7 +71,7 @@ MealDetailScreen.navigationOptions = navigationData => {
         <Item
           title="Favorite"
           iconName="ios-star"
-          onPress={() => { console.log("coucou") }}
+          onPress={toggleFavorite}
         />
       </HeaderButtons>
   }
