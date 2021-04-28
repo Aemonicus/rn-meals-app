@@ -5,7 +5,8 @@ import DefaultText from "../components/DefaultText"
 
 
 import HeaderButton from "../components/HeaderButton"
-import { MEALS } from "../data/dummy-data"
+
+import { useSelector } from "react-redux"
 
 const ListItem = ({ children }) => {
   return (
@@ -16,9 +17,11 @@ const ListItem = ({ children }) => {
 }
 
 const MealDetailScreen = ({ navigation }) => {
+  const availableMeals = useSelector(state => state.meals.meals)
+
   const mealId = navigation.getParam('mealId')
 
-  const selectedMeal = MEALS.find(item => item.id === mealId)
+  const selectedMeal = availableMeals.find(item => item.id === mealId)
   return (
     <ScrollView>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />

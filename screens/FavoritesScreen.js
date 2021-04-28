@@ -3,10 +3,14 @@ import MealList from '../components/MealList'
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import HeaderButton from "../components/HeaderButton"
 
-import { MEALS } from "../data/dummy-data"
+// Ce hook me permet d'aller chercher directement dans le store certains éléments du state
+import { useSelector } from "react-redux"
+
 
 const FavoritesScreen = ({ navigation }) => {
-  const favMeals = MEALS.filter(item => item.id === "m1" || item.id === "m2")
+
+  const favMeals = useSelector(state => state.meals.favoriteMeals)
+
   return (
     <MealList listData={favMeals} navigation={navigation} />
   )
