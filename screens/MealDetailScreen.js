@@ -23,6 +23,8 @@ const MealDetailScreen = ({ navigation }) => {
 
   const mealId = navigation.getParam('mealId')
 
+  const currentMealIsFavorite = useSelector(state => state.meals.favoriteMeals.some(item => item.id === mealId))
+
   const selectedMeal = availableMeals.find(item => item.id === mealId)
 
   // On va utiliser le hook useDispatch pour lancer l'action au reducer
@@ -38,10 +40,13 @@ const MealDetailScreen = ({ navigation }) => {
   //   navigation.setParams({ mealTitle: selectedMeal.title })
   // }, [selectedMeal])
 
+
+  // On utilise le hook useEffect() pour passer des infos aux navigationOptions pour les éléments dans la barre de navigation du haut
   useEffect(() => {
     navigation.setParams({ toggleFav: toggleFavoriteHandler })
   }, [selectedMeal])
 
+  useEffect(() => { navigation.setParams({ isFav: currentMealIsFavorite }) }, [currentMealIsFavorite])
 
   return (
     <ScrollView>
@@ -63,6 +68,7 @@ MealDetailScreen.navigationOptions = navigationData => {
 
   const mealTitle = navigationData.navigation.getParam("mealTitle")
   const toggleFavorite = navigationData.navigation.getParam("toggleFav")
+  const isFavorite = navigationData.navigation.getParam("isFav")
 
   return {
     headerTitle: mealTitle,
@@ -70,7 +76,7 @@ MealDetailScreen.navigationOptions = navigationData => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Favorite"
-          iconName="ios-star"
+          iconName={isFavorite ? "ios-star" : "ios-star-outline"}
           onPress={toggleFavorite}
         />
       </HeaderButtons>

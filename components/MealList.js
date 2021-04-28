@@ -1,11 +1,18 @@
 import React from 'react'
 import { View, FlatList, StyleSheet } from 'react-native'
+import { useSelector } from "react-redux"
 
 import MealItem from './MealItem'
 
 const MealList = ({ navigation, listData }) => {
 
+  // Avec ce hook j'ai vais récupérer une partie du state
+  const favoriteMeals = useSelector(state => state.meals.favoriteMeals)
+
   const renderMealItem = itemData => {
+
+    const isFavorite = favoriteMeals.some(item => item.id === itemData.item.id)
+
     return (
       <MealItem
         title={itemData.item.title}
@@ -16,7 +23,8 @@ const MealList = ({ navigation, listData }) => {
         onSelectMeal={() => navigation.navigate({
           routeName: "MealDetail", params: {
             mealId: itemData.item.id,
-            mealTitle: itemData.item.title
+            mealTitle: itemData.item.title,
+            isFav: isFavorite
           }
         })} />
     )
