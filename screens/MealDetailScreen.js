@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, Button, ScrollView, Image } from 'react-native'
 import { HeaderButtons, Item } from "react-navigation-header-buttons"
 import DefaultText from "../components/DefaultText"
@@ -22,6 +22,13 @@ const MealDetailScreen = ({ navigation }) => {
   const mealId = navigation.getParam('mealId')
 
   const selectedMeal = availableMeals.find(item => item.id === mealId)
+
+  // Solution pas optimale car les hooks sont activés après le premier rendu du component, hors on utilise ce hook pour faire apapraitre un titre dans le header plus bas dans le code. Ca veut dire que le titre apparait quelques secondes après le rendu initial, pas top
+  // useEffect(() => {
+  //   navigation.setParams({ mealTitle: selectedMeal.title })
+  // }, [selectedMeal])
+
+
   return (
     <ScrollView>
       <Image source={{ uri: selectedMeal.imageUrl }} style={styles.image} />
@@ -41,10 +48,11 @@ const MealDetailScreen = ({ navigation }) => {
 MealDetailScreen.navigationOptions = navigationData => {
 
   const mealId = navigationData.navigation.getParam("mealId")
-  const selectedMeal = MEALS.find(item => item.id === mealId)
+  const mealTitle = navigationData.navigation.getParam("mealTitle")
+  // const selectedMeal = MEALS.find(item => item.id === mealId)
 
   return {
-    headerTitle: selectedMeal.title,
+    headerTitle: mealTitle,
     headerRight: () =>
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
